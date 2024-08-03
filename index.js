@@ -117,7 +117,7 @@ app.get("/contacts", (req, res) => {
             b.firstName.localeCompare(a.firstName)
           );
         } else {
-          res.status(400).json({ error: "Invalid order" });
+          return res.status(400).json({ error: "Invalid order" });
         }
       }
     });
