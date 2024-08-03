@@ -1,0 +1,15 @@
+{
+  "name": "assingment",
+  "version": "1.0.0",
+  "description": "ContactBackend",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^3.1.4"
+  }
+}
