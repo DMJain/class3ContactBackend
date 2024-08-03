@@ -76,18 +76,51 @@ app.get("/", (req, res) => {
 //GET Routes
 // create a route to get all contacts
 app.get("/contacts", (req, res) => {
-  const {sort , order } = req.query; // Default to ascending order
+  const { sort, order } = req.query; // Default to ascending order
   //convert to and filter out empty lines
-  const contacts = fs.readFileSync(csvFIlePath, "utf8").split("\n").filter(line => line.trim() !== ""); 
+  const contacts = fs
+    .readFileSync(csvFIlePath, "utf8")
+    .split("\n")
+    .filter((line) => line.trim() !== "");
 
-  const formattedContactsList = contacts.map(contact => formattedContacts(contact));
+  const formattedContactsList = contacts.map((contact) =>
+    formattedContacts(contact)
+  );
 
-  if(order){
+  // order querry
+  if (order) {
+    // check if order is defined
     if (order === "asc") {
-      formattedContactsList.sort((a, b) => a.firstName.localeCompare(b.firstName));
+      formattedContactsList.sort((a, b) =>
+        a.firstName.localeCompare(b.firstName)
+      );
     } else if (order === "desc") {
-      formattedContactsList.sort((a, b) => b.firstName.localeCompare(a.firstName));
+      formattedContactsList.sort((a, b) =>
+        b.firstName.localeCompare(a.firstName)
+      );
     }
+  }
+
+  // Sort by createdAt
+  if (sort) {
+    // check if sort is defined
+    formattedContactsList.sort((a, b) => {
+      if (sort === "createdAt") {
+        if (order === "asc") {
+          return (
+            new Date(a.createdAt) - new Date(b.createdAt) ||
+            a.firstName.localeCompare(b.firstName)
+          );
+        } else if (order === "desc") {
+          return (
+            new Date(b.createdAt) - new Date(a.createdAt) ||
+            b.firstName.localeCompare(a.firstName)
+          );
+        } else {
+          res.status(400).json({ error: "Invalid order" });
+        }
+      }
+    });
   }
 
   res.json(formattedContactsList);
