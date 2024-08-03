@@ -207,4 +207,11 @@ app.listen(8000, () => {
  * POST : creta a contact : /contacts
  * PUT " update contact : /contacts/:id
  * DELETE : delete a contact : /contacts/:id 
+* body _ JSON :
+ * {
+  "firstName" : "sad",
+  "lastName" : "dsfs",
+  "email" : "sdfds@email.com",
+  "phone" : 2345678901
+  }
  */
